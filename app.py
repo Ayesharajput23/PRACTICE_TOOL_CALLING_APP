@@ -287,7 +287,7 @@ st.markdown(
         padding: 10px;
         border-radius: 10px;
         border: 1px solid #ccc;
-        width: 80%;
+        width: 100%;
     }
     .sidebar .sidebar-content {
         background-color: #e0f7fa;

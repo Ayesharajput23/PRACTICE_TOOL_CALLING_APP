@@ -257,11 +257,87 @@ llm = ChatGoogleGenerativeAI(model = "gemini-2.0-flash-exp" , api_key=GOOGLE_API
 agent = initialize_agent(tools, llm , agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION )
 
 
-# Frontend
+# import streamlit as st
 
+# Set page config for better look and feel
+st.set_page_config(page_title="Practice Tool Calling App", layout="wide", initial_sidebar_state="expanded")
+
+# Custom CSS for more styling
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f0f8ff;
+        font-family: 'Arial', sans-serif;
+    }
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+    .stButton>button:hover {
+        background-color: #45a049;
+    }
+    .stTextInput>div>div>input {
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        width: 80%;
+    }
+    .sidebar .sidebar-content {
+        background-color: #e0f7fa;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    h1 {
+        color: #333;
+        font-size: 40px;
+        text-align: center;
+    }
+    h2 {
+        color: #555;
+        font-size: 28px;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Title of the app
 st.title("Practice Tool Calling App")
-user_input = st.text_input("Ask anything")
 
+# Sidebar for navigation
+st.sidebar.title("Available Tools")
+tools = [
+    "Multiply",
+    "Get Latest News",
+    "Get Movie Details",
+    "Get Recipe",
+    "Get Distance",
+    "Get Stock Price",
+    "Get IP Address"
+]
+for tool in tools:
+    st.sidebar.write(f"- {tool}")
+
+# Add a brief description on the main page
+st.markdown("""
+    <h2>Welcome to the Practice Tool Calling App</h2>
+    <p>This app uses a powerful language model to help you access various tools. 
+    Simply type your question below and let the app automatically select the right tool for you!</p>
+""", unsafe_allow_html=True)
+
+# Text input for user to ask a question
+user_input = st.text_input("Ask anything", placeholder="Type your question here...")
+
+# Button for submission
 if st.button("Submit"):
-    result = agent.invoke(user_input)
+    # Pass the user input to your LLM to decide the appropriate tool and generate a response
+    result = agent.invoke({"input": user_input})
+    
+    # Display the result from the LLM
     st.write(result["output"])

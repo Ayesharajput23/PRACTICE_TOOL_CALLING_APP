@@ -1,9 +1,9 @@
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import initialize_agent, AgentType
-import speech_recognition as sr
-import re
-import pyttsx3
+# import speech_recognition as sr
+# import re
+# import pyttsx3
 import streamlit as st
 from tools import  calculator, get_latest_news,get_movie_details,get_recipe,get_distance,get_stock_price,get_ip_address ,get_disk_usage,get_time_in_timezone,get_weather
 from dotenv import load_dotenv
@@ -18,59 +18,59 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 
-@tool
-def handle_audio_input(tool_input: str = None):
-    """
-    Handles audio input from the user, processes it into text, and generates an AI response with audio playback.
-    This function ignores unnecessary words and noise in the speech input.
+# @tool
+# def handle_audio_input(tool_input: str = None):
+#     """
+#     Handles audio input from the user, processes it into text, and generates an AI response with audio playback.
+#     This function ignores unnecessary words and noise in the speech input.
 
-    Steps:
-    1. Listens for audio input using a microphone.
-    2. Converts the audio input to text using Google's speech recognition service.
-    3. Cleans up the text to remove unwanted words like fillers ("um", "uh").
-    4. Generates a response and converts it to audio using text-to-speech.
-    5. Plays the generated audio response automatically.
-    """
-    recognizer = sr.Recognizer()
+#     Steps:
+#     1. Listens for audio input using a microphone.
+#     2. Converts the audio input to text using Google's speech recognition service.
+#     3. Cleans up the text to remove unwanted words like fillers ("um", "uh").
+#     4. Generates a response and converts it to audio using text-to-speech.
+#     5. Plays the generated audio response automatically.
+#     """
+#     recognizer = sr.Recognizer()
     
-    # Listen for audio input
-    with sr.Microphone() as source:
-        audio = recognizer.listen(source)
+#     # Listen for audio input
+#     with sr.Microphone() as source:
+#         audio = recognizer.listen(source)
         
-    try:
-        # Convert speech to text
-        text_input = recognizer.recognize_google(audio)
-        st.success(f"Your text: {text_input}")
+#     try:
+#         # Convert speech to text
+#         text_input = recognizer.recognize_google(audio)
+#         st.success(f"Your text: {text_input}")
         
     
         
-        # Simulate AI response (replace with actual LLM logic)
-        with st.spinner("AI Responding..."):
-            response = agent.invoke(text_input)  # Replace with actual LLM logic
-            response = response["output"]
-            st.success(f"AI Response: {response}")
-            # Clean up the recognized text by removing unwanted words (e.g., fillers, extra spaces)
-            cleaned_input = re.sub(r'\b(um|uh|ah|like|so|you know)\b', '', response, flags=re.IGNORECASE)
-            cleaned_input = re.sub(r'[^\w\s]', '', cleaned_input)  # Remove unwanted characters like * and _
+#         # Simulate AI response (replace with actual LLM logic)
+#         with st.spinner("AI Responding..."):
+#             response = agent.invoke(text_input)  # Replace with actual LLM logic
+#             response = response["output"]
+#             st.success(f"AI Response: {response}")
+#             # Clean up the recognized text by removing unwanted words (e.g., fillers, extra spaces)
+#             cleaned_input = re.sub(r'\b(um|uh|ah|like|so|you know)\b', '', response, flags=re.IGNORECASE)
+#             cleaned_input = re.sub(r'[^\w\s]', '', cleaned_input)  # Remove unwanted characters like * and _
             
 
-            engine = pyttsx3.init()
-            voices = engine.getProperty('voices')
+#             engine = pyttsx3.init()
+#             voices = engine.getProperty('voices')
             
-            # Select male voice (typically the first or second voice)
-            for voice in voices:
-                if "male" in voice.name.lower() or "man" in voice.name.lower():
-                    engine.setProperty('voice', voice.id)
-                    break
+#             # Select male voice (typically the first or second voice)
+#             for voice in voices:
+#                 if "male" in voice.name.lower() or "man" in voice.name.lower():
+#                     engine.setProperty('voice', voice.id)
+#                     break
             
-            # Set the response text and speak it
-            engine.say(cleaned_input)
-            engine.runAndWait()
+#             # Set the response text and speak it
+#             engine.say(cleaned_input)
+#             engine.runAndWait()
 
-    except sr.UnknownValueError:
-        st.error("Sorry, I couldn't understand the audio.")
-    except sr.RequestError as e:
-        st.error(f"Error with the speech recognition service: {e}")
+#     except sr.UnknownValueError:
+#         st.error("Sorry, I couldn't understand the audio.")
+#     except sr.RequestError as e:
+#         st.error(f"Error with the speech recognition service: {e}")
 
 
 tools = [
@@ -85,7 +85,7 @@ tools = [
     get_weather,
     get_time_in_timezone,
     get_disk_usage,
-    handle_audio_input
+    # handle_audio_input
 
 
 
@@ -164,7 +164,6 @@ tools = [
     "get_weather",
     "get_time_in_timezone",
     "get_disk_usage",
-    "handle_audio_input ",# Custom tool for handling audio input
 
 
 ]
@@ -194,7 +193,7 @@ if st.button("Submit"):
 
 
 
-# Button to start listening
-if st.button("Start Speaking"):
-    with st.spinner("Listening..."):
-        handle_audio_input(tool_input="start")
+# # Button to start listening
+# if st.button("Start Speaking"):
+#     with st.spinner("Listening..."):
+#         handle_audio_input(tool_input="start")
